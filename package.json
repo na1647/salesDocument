@@ -1,0 +1,15 @@
+{
+  "name": "salesDocument",
+  "version": "0.0.1",
+  "description": "Create sales document with specific model and data",
+  "main": "index.js",
+  "author": "Atlantis Software",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "~4.17.10",
+    "pdfmake": "~0.1.37"
+  },
+  "devDependencies": {
+    "eslint": "~5.4.0"
+  }
+}
