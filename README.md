@@ -9,6 +9,19 @@ Just do an npm install in your project folder :
 npm install salesDocument
 ```
 
+## Run example
+You need to install pdfmake in the project :
+```
+npm install pdfmake
+```
+After that you need to go in example folders and use `node` commands :
+
+```
+node basics.js
+```
+
+That will create a pdf in pdfs folders. You can change model and data in corresponding files
+
 ## Usage
 SalesDocument is a instantiable object.
 
@@ -18,7 +31,7 @@ For use SalesDocument we need to require or import the class :
 ```javascript
 var salesDocument = require('salesDocument');
 //or
-import { salesDocument } from 'salesDocument'
+import salesDocument from 'salesDocument'
 ```
 
 Next we need to create the object :
@@ -34,7 +47,9 @@ myObject.setData(data);
 
 The main function of class is `createPDFMakeDD`, that put data into model and create a pdfmake dd, then we can use pdfmake to create a pdf
 ```javascript
-var dd = myObject.createPDFMakeDD();
+myObject.createPDFMakeDD( function(dd) {
+  // some code
+});
 ```
 
 ## Create the model
