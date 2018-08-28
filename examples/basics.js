@@ -17,8 +17,8 @@ var fs = require("fs");
 var sDoc = new salesDocument();
 sDoc.setModel(model);
 sDoc.setData(data);
-var dd = sDoc.createPDFMakeDD();
-
-var pdfDoc = printer.createPdfKitDocument(dd);
-pdfDoc.pipe(fs.createWriteStream('pdfs/basics.pdf'));
-pdfDoc.end();
+sDoc.createPDFMakeDD((dd)=> {
+  var pdfDoc = printer.createPdfKitDocument(dd);
+  pdfDoc.pipe(fs.createWriteStream('pdfs/basics.pdf'));
+  pdfDoc.end();
+});

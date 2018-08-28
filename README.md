@@ -18,7 +18,7 @@ For use SalesDocument we need to require or import the class :
 ```javascript
 var salesDocument = require('salesDocument');
 //or
-import { salesDocument } from 'salesDocument'
+import salesDocument from 'salesDocument'
 ```
 
 Next we need to create the object :
@@ -34,7 +34,9 @@ myObject.setData(data);
 
 The main function of class is `createPDFMakeDD`, that put data into model and create a pdfmake dd, then we can use pdfmake to create a pdf
 ```javascript
-var dd = myObject.createPDFMakeDD();
+myObject.createPDFMakeDD( function(dd) {
+  // some code
+});
 ```
 
 ## Create the model
