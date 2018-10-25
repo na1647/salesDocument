@@ -1,5 +1,5 @@
 {
-  "name": "salesDocument",
+  "name": "salesdocument",
   "version": "0.0.1",
   "description": "Create sales document with specific model and data",
   "main": "index.js",
