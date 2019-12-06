@@ -96,6 +96,7 @@ class salesDocument {
   // Next it will take the data name we need to replace tag
   // For each line in data we create a new line in table and replace all tag with the correct data
   _formatTable(object, cb) {
+    var self = this;
     var lineType = {};
     // Create object with all line model
     object.forOrder.forEach((type, i) => {
@@ -112,6 +113,14 @@ class salesDocument {
       dataName = this._recoverDataName(object.body[object.headerRows]);
     } else {
       dataName = this._recoverDataName(object.body[0]);
+    }
+    // translate columns headers
+    for (var i = 0; i < object.headerRows; i++) {
+      object.body[i].forEach(function(colonne){
+        if (colonne.text) {
+          colonne.text = self._replaceTag(colonne.text);
+        }
+      });
     }
     // Remove all model line from dd
     if (object.headerRows) {
