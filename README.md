@@ -104,7 +104,7 @@ It will take automatically all the line.
 Example :
 ```javascript
 table : {
-  forOrder: ['normal', 'comment', 'other'],
+  forOrder: ['normal', 'comment', 'array'],
   body : [
     [
       {
@@ -139,6 +139,40 @@ table : {
         margin: [0, 8, 0, 0]
       }
     ]
+  ],
+  [
+    {
+      colSpan: 10,
+      border: [
+        true, false, true, false
+      ],
+      text: '<sDoc>ligne.comment</sDoc>'
+    },
+    ''
+  ],
+  [
+    {
+      colSpan: 10,
+      table: {
+        widths: [50,178,35,16,38,20,20,35,37,2],
+        body: [
+          [
+            {text: '<sDoc>line_array.code</sDoc>'},
+            {text: '<sDoc>line_array.designation</sDoc>'},
+            {text: '<sDoc>line_array.quantity</sDoc>',alignment: 'right'},
+            {text: '<sDoc>line_array.unity</sDoc>'},
+            {text: '<sDoc>line_array.publicPrice</sDoc>', alignment: 'right'},
+            {text: '<sDoc>line_array.R</sDoc>', alignment: 'right'},
+            {text: '<sDoc>line_array.RC</sDoc>', alignment: 'right'},
+            {text: '<sDoc>line_array.netUnitPrice</sDoc>', alignment: 'right'},
+            {text: '<sDoc>line_array.totalExclTaxes</sDoc>', alignment: 'right'},
+            {text: '<sDoc>line_array.T</sDoc>'}
+          ]
+        ]
+      },
+      layout: 'noBorders'
+    },
+    ''
   ]
 }
 ```
@@ -156,7 +190,8 @@ var data = {
       //firstLine
     },
     {
-      //secondLine
+      line_array: []
+      //secondLine array
     }
   ],
   info : {

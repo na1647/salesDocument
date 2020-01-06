@@ -15,17 +15,24 @@ var data = {
   },
   ligne : [
     {
-      code:'1206008034',
-      designation:'LASER PRINTER (REF)',
-      quantity:'1.000',
-      unity:'U',
-      publicPrice:'',
-      R:'',
-      RC:'',
-      netUnitPrice:'353.31',
-      totalExclTaxes:'353.31',
-      T:'1',
-      type: "normal"
+      line_array: [
+        {
+          code:'1206008034',
+          designation:'LASER PRINTER (REF)',
+          quantity:'1.000',
+          unity:'U',
+          publicPrice:'',
+          R:'',
+          RC:'',
+          netUnitPrice:'353.31',
+          totalExclTaxes:'353.31',
+          T:'1'
+        }, {
+          designation:'- Ecotax',
+          totalExclTaxes:'2.50',
+        }
+      ],
+      type: "array"
     },
     {
       code:'1206008034',
