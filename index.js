@@ -96,6 +96,7 @@ class salesDocument {
   // Next it will take the data name we need to replace tag
   // For each line in data we create a new line in table and replace all tag with the correct data
   _formatTable(object, cb) {
+    var self = this;
     var lineType = {};
     // Create object with all line model
     object.forOrder.forEach((type, i) => {
@@ -126,11 +127,31 @@ class salesDocument {
         if (!line.type) {
           return cb();
         }
+
         if (!lineType[line.type]) {
           return cb();
         }
         var newLine = _.cloneDeep(lineType[line.type]);
         asynk.each(newLine, (column, cb) => {
+          if (_.has(column, 'table.body') && column.table.body[0]) {
+            var nameObjetLigneArray = this._recoverDataName(column.table.body[0]);
+            if (line[nameObjetLigneArray]) {
+              if (line[nameObjetLigneArray] && line[nameObjetLigneArray][0]) {
+                for (var prop in line[nameObjetLigneArray][0]) {
+                  self._tag_search = '<'+self._tag +'>'+nameObjetLigneArray+"."+prop+'</'+self._tag+'>';
+                  break;
+                }
+              }
+              // add each array line in the template with the data
+              line[nameObjetLigneArray].forEach(function(ligneArray){
+                self._addArrayLigneWithData(column.table.body, ligneArray, self._tag_search);
+              });
+              // delete the first ligne in the array
+              column.table.body = _.filter(  column.table.body, function(ligneArray) {
+                return !_.map(ligneArray, 'text').includes(self._tag_search);
+              });
+            }
+          }
           if (column.text) {
             // verify if tag is present, if true replace tag with data
             if (column.text.indexOf(this._tag) != -1) {
@@ -221,6 +242,36 @@ class salesDocument {
       }
       return value;
     });
+  }
+
+  _addArrayLigneWithData(tableBody, ligneArray, tag_search) {
+    var self = this;
+    tableBody.forEach(function(arrayLine){
+      // we clone the template line each time
+      var ligneToClone = _.find(arrayLine, function(l) { return l.text && _.includes(l.text, tag_search); });
+      if (ligneToClone) {
+        var arrayLineToClone = _.cloneDeep(arrayLine);
+        arrayLineToClone.forEach(function(column){
+          if (column.text) {
+            column.text.replace(self._regexTag, function(match, tag, insideTag) {
+              var propertyLine = insideTag.split(".");
+              if (propertyLine && propertyLine[1]) {
+                if (ligneArray[propertyLine[1]]) {
+
+                  column.text = ligneArray[propertyLine[1]];
+                } else {
+                  // if the property doesn't not exist on the line object => we display a empy text on the pdf
+                  column.text = '';
+                }
+              }
+            });
+          }
+        });
+        // add cloned line to the template array
+        tableBody.push(arrayLineToClone);
+      }
+    });
+
   }
 }
 

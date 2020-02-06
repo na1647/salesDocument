@@ -114,11 +114,11 @@ var model = {
         }
       },
       table: {
-        widths: [50,178,35,12,35,20,20,35,40,6],
+        widths: [50,178,35,16,38,20,20,35,37,2],
         headerRows: 1,
         keepWithHeaderRows: 1,
         dontBreakRows: true,
-        forOrder: ["normal", "commentaire", "nomenclature"],
+        forOrder: ["normal", "commentaire", "nomenclature", "array"],
         body: [
           [
             {
@@ -138,7 +138,6 @@ var model = {
               border: [true, true, true, true]
             }, {
               text: 'U',
-              alignment: 'center',
               style: 'smallbold',
               border: [true, true, true, true]
             }, {
@@ -260,6 +259,30 @@ var model = {
               style: 'StyleLigne',
               text: 'T'
             }
+          ],
+          [
+            {
+              colSpan: 10,
+              table: {
+                widths: [50,178,35,16,38,20,20,35,37,2],
+                body: [
+                  [
+                    {text: '<sDoc>line_array.code</sDoc>'},
+                    {text: '<sDoc>line_array.designation</sDoc>'},
+                    {text: '<sDoc>line_array.quantity</sDoc>',alignment: 'right'},
+                    {text: '<sDoc>line_array.unity</sDoc>'},
+                    {text: '<sDoc>line_array.publicPrice</sDoc>', alignment: 'right'},
+                    {text: '<sDoc>line_array.R</sDoc>', alignment: 'right'},
+                    {text: '<sDoc>line_array.RC</sDoc>', alignment: 'right'},
+                    {text: '<sDoc>line_array.netUnitPrice</sDoc>', alignment: 'right'},
+                    {text: '<sDoc>line_array.totalExclTaxes</sDoc>', alignment: 'right'},
+                    {text: '<sDoc>line_array.T</sDoc>'}
+                  ]
+                ]
+              },
+              layout: 'noBorders'
+            },
+            ''
           ]
         ]
       }
