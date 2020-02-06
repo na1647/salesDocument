@@ -114,6 +114,14 @@ class salesDocument {
     } else {
       dataName = this._recoverDataName(object.body[0]);
     }
+    // translate columns headers
+    for (var i = 0; i < object.headerRows; i++) {
+      object.body[i].forEach(function(colonne){
+        if (colonne.text) {
+          colonne.text = self._replaceTag(colonne.text);
+        }
+      });
+    }
     // Remove all model line from dd
     if (object.headerRows) {
       object.body = object.body.slice(0, object.headerRows);
