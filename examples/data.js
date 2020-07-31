@@ -1,4 +1,6 @@
 var data = {
+  footer: "un footer",
+  rose: "#ff80ff",
   document : {
     numero: 1234,
     date: '01/01/1995',
@@ -39,7 +41,7 @@ var data = {
       designation:'WOODEN DESK ',
       quantity:'1.000',
       unity:'U',
-      publicPrice:'',
+      publicPrice:'20',
       R:'',
       RC:'',
       netUnitPrice:'256.99',
@@ -66,7 +68,8 @@ var data = {
       quantity:'1.000',
       unity:'U',
       T:'1',
-      type: "nomenclature"
+      level: 1,
+      type: "composant"
     },
     {
       code:'12342',
@@ -74,7 +77,8 @@ var data = {
       quantity:'1.000',
       unity:'U',
       T:'1',
-      type: "nomenclature"
+      type: "composant",
+      level: 3
     },
     {
       comment: 'Deferred delivery for the rest of the invoice',
@@ -91,7 +95,8 @@ var data = {
       netUnitPrice:'160.99',
       totalExclTaxes:'160.99',
       T:'1',
-      type: "normal"
+      type: "composant",
+      level: 2
     }
   ],
   info : {
@@ -109,7 +114,8 @@ var data = {
       billTotalET: "100",
       billTotalVAT: "15.5",
       billTotalNet: "115.5",
-      type: "normal"
+      type: "normal",
+      rose: "#FF00FF"
     },
     {
       index: "2",
