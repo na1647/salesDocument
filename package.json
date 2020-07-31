@@ -1,6 +1,6 @@
 {
   "name": "salesdocument",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Create sales document with specific model and data",
   "main": "index.js",
   "author": "Atlantis Software",
