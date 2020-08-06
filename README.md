@@ -46,12 +46,23 @@ myObject.setData(data);
 ```
 
 The main function of class is `createPDFMakeDD`, that put data into model and create a pdfmake dd, then we can use pdfmake to create a pdf
+Call the first time with the first document with its data
+Modify all document ( header and footer ) with the data
+Pagination by document
 ```javascript
 myObject.createPDFMakeDD( function(dd) {
   // some code
 });
 ```
 
+Add new document folowing the pdf
+From the second document we use this function
+The data to modify in the new document is passed to it as a parameter
+```javascript
+myObject.addDocument(data, function(dd) {
+  // some code
+});
+```
 ## Create the model
 The model is a document definition of pdfmake so we can use any features available in pdfmake
 
