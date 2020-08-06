@@ -3,22 +3,35 @@ var asynk = require("asynk");
 
 class salesDocument {
   constructor(model, data) {
-    this.setModel(model);
-    this.setData(data);
+    if (model) {
+      this.setModel(model);
+    }
+    if (data) {
+      this.setData(data);
+    }
     // Define default tag for replace data
     this._tag = "sDoc";
     this._tagCurrentPage = "<currentPage/>";
     this._tagPageCount = "<pageCount/>";
     // Select the tag in first group and is content in second group.
     this._regexTag = new RegExp(`<(${this._tag})>([\\s\\S]*?)</\\1>`, 'g');
-    // Clone the model in dd to avoid to replace model.
-    this.dd = _.cloneDeep(this._model);
+    this.num_page_rupture_header = 0;
+    this.current_page_header = 0;
+    this.page_count_header = 1;
+    this.next_index_header = 0;
+
+    this.num_page_rupture_footer = 0;
+    this.current_page_footer = 0;
+    this.page_count_footer = 1;
+    this.next_index_footer = 0;
   }
 
   setModel(model) {
     var self = this;
     this._model = model;
+    // Clone the model in dd to avoid to replace model.
     this.dd = _.cloneDeep(this._model);
+    this.dd.content = [];
     this._model.parse = function(text) {
       return self._replaceTag(text);
     };
@@ -28,11 +41,28 @@ class salesDocument {
     this._data = data;
   }
 
+  // add new document folowing the pdf
+  // from the second document we use this function
+  addDocument(data, cb) {
+    this.content = _.cloneDeep(this._model.content);
+    this._recursiveFindObject(this.content, () => {
+      if (this.dd.content.length > 0) {
+        this.content.unshift({text: ' ', style: 'normal', pageBreak: 'before' });
+      }
+      this.content.push({text: "new_document", fontSize:0 });
+      this.dd.content = this.dd.content.concat(this.content);
+      cb(this.dd);
+    });
+  }
+
   setTag(tag) {
     this._tag = tag;
     this._regexTag = new RegExp(`<(${this._tag})>([\\s\\S]*?)</\\1>`, 'g');
   }
 
+  // Call the first time with the first document with its data
+  // modify all document ( header and footer ) with the data
+  // pagination by document
   // Main function, create the document definition for pdfmake
   // Take a callback in parameters that send dd
   createPDFMakeDD(cb) {
@@ -44,7 +74,9 @@ class salesDocument {
     }
 
     this._recursiveFindObject(this.dd, () => {
-      cb(this.dd);
+      this.addDocument(this._data,() => {
+        cb(this.dd);
+      });
     });
   }
 
@@ -87,11 +119,11 @@ class salesDocument {
         cb();
       } else if (key === 'footer'){
         var footer =  _.cloneDeep(object[key]);
-        object[key] = function(currentPage, pageCount){ return self._executeHeaderOrFooter(footer, currentPage.toString(), pageCount.toString());};
+        object[key] = function(currentPage, pageCount){ return self._executeHeader(footer, currentPage, pageCount.toString());};
         cb();
       } else if (key === 'header'){
         var header =  _.cloneDeep(object[key]);
-        object[key] = function(currentPage, pageCount){ return self._executeHeaderOrFooter(header, currentPage.toString(), pageCount.toString());};
+        object[key] = function(currentPage, pageCount){ return self._executeFooter(header, currentPage, pageCount.toString());};
         cb();
       } else {
         cb();
@@ -100,9 +132,79 @@ class salesDocument {
       cb();
     }).fail(cb);
   }
-  _executeHeaderOrFooter(model, currentpage, pagecount) {
+  _executeHeader(model, currentpage) {
+    var self = this;
     var model_header_or_footer =  _.cloneDeep(model);
-    return this._recursiveFindObjectSynchrone(model_header_or_footer, currentpage, pagecount);
+    // Recovery of all breaks
+    var pages_rupture = _.filter(self.dd.content, function(p) { return p.text === "new_document"; });
+    // sort breaks by page number
+    var ruptures_sort_by_num_page = _.sortBy(pages_rupture, [function(p) {
+      if (p.positions && p.positions[0] && p.positions[0].pageNumber) {
+        return p.positions[0].pageNumber;
+      }
+    }]);
+    // current page is a breaking page ?
+    var current_page_rupture = _.find( ruptures_sort_by_num_page , function(p) {
+      if (p.positions && p.positions[0] && p.positions[0].pageNumber) {
+        return currentpage === p.positions[0].pageNumber + 1;
+      }
+    });
+    // if broken page and or if the first page => we assign the pagecount
+    if (current_page_rupture && _.has(current_page_rupture, 'positions[0].pageNumber') || currentpage === 1) {
+      if (ruptures_sort_by_num_page && ruptures_sort_by_num_page[self.next_index_header] && _.has(ruptures_sort_by_num_page[self.next_index_header], 'positions[0].pageNumber')) {
+        // get page count
+        self.page_count_header = ruptures_sort_by_num_page[self.next_index_header].positions[0].pageNumber - self.num_page_rupture_header;
+        self.num_page_rupture_header = ruptures_sort_by_num_page[self.next_index_header].positions[0].pageNumber;
+      }
+      // case current page is the last page but page count not equal to 1
+      if (currentpage === self.dd.content[self.dd.content.length -1].positions[0].pageNumber && self.page_count_footer !== 1) {
+        self.current_page_header++;
+      } else {
+        self.current_page_header = 1;
+      }
+      self.next_index_header++;
+    } else {
+      self.current_page_header++;
+    }
+    return this._recursiveFindObjectSynchrone(model_header_or_footer, self.current_page_header, self.page_count_header);
+  }
+
+  _executeFooter(model, currentpage) {
+    var self = this;
+    var model_header_or_footer =  _.cloneDeep(model);
+
+    // Recovery of all breaks
+    var pages_rupture = _.filter(self.dd.content, function(p) { return p.text === "new_document"; });
+    // sort breaks by page number
+    var ruptures_sort_by_num_page = _.sortBy(pages_rupture, [function(p) {
+      if (p.positions && p.positions[0] && p.positions[0].pageNumber) {
+        return p.positions[0].pageNumber;
+      }
+    }]);
+    // current page is a breaking page ?
+    var current_page_rupture = _.find( ruptures_sort_by_num_page , function(p) {
+      if (p.positions && p.positions[0] && p.positions[0].pageNumber) {
+        return currentpage === p.positions[0].pageNumber + 1;
+      }
+    });
+    // if broken page and or if the first page => we assign the pagecount
+    if (current_page_rupture && _.has(current_page_rupture, 'positions[0].pageNumber') || currentpage === 1) {
+      if (ruptures_sort_by_num_page && ruptures_sort_by_num_page[self.next_index_footer] && _.has(ruptures_sort_by_num_page[self.next_index_footer], 'positions[0].pageNumber')) {
+        // get page count
+        self.page_count_footer = ruptures_sort_by_num_page[self.next_index_footer].positions[0].pageNumber - self.num_page_rupture_footer;
+        self.num_page_rupture_footer = ruptures_sort_by_num_page[self.next_index_footer].positions[0].pageNumber;
+      }
+      // case current page is the last page but page count not equal to 1
+      if (currentpage === self.dd.content[self.dd.content.length -1].positions[0].pageNumber && self.page_count_footer !== 1) {
+        self.current_page_footer++;
+      } else {
+        self.current_page_footer = 1;
+      }
+      self.next_index_footer++;
+    } else {
+      self.current_page_footer++;
+    }
+    return this._recursiveFindObjectSynchrone(model_header_or_footer, self.current_page_footer, self.page_count_footer);
   }
   _recursiveFindObjectSynchrone(object, currentpage, pagecount) {
     _.each(object, (value, key) => {

@@ -18,7 +18,13 @@ var sDoc = new salesDocument();
 sDoc.setModel(model);
 sDoc.setData(data);
 sDoc.createPDFMakeDD((dd)=> {
-  var pdfDoc = printer.createPdfKitDocument(dd);
-  pdfDoc.pipe(fs.createWriteStream('pdfs/basics.pdf'));
-  pdfDoc.end();
+  sDoc.addDocument(data, (dd2)=> {
+    sDoc.addDocument(data, (dd3)=> {
+      sDoc.addDocument(data, (dd4)=> {
+        var pdfDoc = printer.createPdfKitDocument(dd4);
+        pdfDoc.pipe(fs.createWriteStream('pdfs/basics.pdf'));
+        pdfDoc.end();
+      });
+    });
+  });
 });
