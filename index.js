@@ -44,6 +44,7 @@ class salesDocument {
   // add new document folowing the pdf
   // from the second document we use this function
   addDocument(data, cb) {
+    this.setData(data);
     this.content = _.cloneDeep(this._model.content);
     this._recursiveFindObject(this.content, () => {
       if (this.dd.content.length > 0) {
