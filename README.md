@@ -1,6 +1,16 @@
 # salesDocument
 
-SalesDocument is a class that provide functions to create sales document with a model create with pdfmake and with data
+SalesDocument is a class that provide functions to create a sale document with a model using pdfmake and somes datas.
+
+When the sale document is created, anyone can modify the model to modify the look and feel of the document without modifying any code line.
+
+You modify the model and use SalesDocument to regenerate the sale document with the new properties.
+
+You can put in the sale document all the poperties which are located in the datas witout modifying code line.
+
+You can let your customers modify the model or generate their own models of their documents.
+
+SalesDocument permit you to generate all the documents you have in head. For example you can generate follow up letters, order, order's picking, delivery, invoice, etc.
 
 ## Installation
 Just do an npm install in your project folder :
@@ -64,7 +74,7 @@ myObject.addDocument(data, function(dd) {
 });
 ```
 ## Create the model
-The model is a document definition of pdfmake so we can use any features available in pdfmake
+The model is a document definition of pdfmake so we can use any features available in pdfmake.
 
 To create a model with dynamic data we just need to use a tag with data we want to be modify. Per default the tag is sDoc
 
@@ -145,25 +155,32 @@ var dd = {
 ```
 In the header or the footer we can use the tag `<currentPage/>` to display current page and the tag  `<pageCount/>` to display the total number of pages.
 
-In our model we can create a `for` in our table for that we just need to add `forOrder` attribute.
+In your model you can create a loop (`for`) in your table. For that you just need to add `forOrder` attribute. 
 
-That attribute is an array of string with in order the different type of line, like `normal`, `comment` ...
+SalesDocument will loop all times is needed to fullfill the table with the datas. For every one line of datas, you determine the type of line model you want to be used by filling the "type" propertie in the data line and SalesDocument will used the correct linem model using the "forOrder" propertie which is in the model
+
+That attribute is an array of string with in order the different type of line, like `orderline`, `commentline` ... It's important respecting order of type of line when you code the model.
+
+SalesDocument need to know where it must search the datas for the table which must be fill up. To perform this, you need to fill the dataname propertie in the model. In the example below, the dataname is "OrderLines". You can name it with what you want. But the name must be the same in the model and in the datas.
+
+The first description line of a table is the columns headers rows
 
 Example :
 ```javascript
 table : {
   width : ...,
   headerRows: 1,
-  forOrder: ['normal', 'comment', 'other'],
+  forOrder: ['orderline', 'commentline', 'other'],
   body : [
     // The first line is the header
     // headerRows define how many line we skip before model of line
     [
       {
-        headerRow
+        //headerRow
+	...
       }
     ],
-    //normal line
+    //order line
     [...],
     //comment line
     [...],
@@ -186,9 +203,11 @@ table: {
   headerRows: 1, // the first x lines are headers ( in our case 1 header line)
   keepWithHeaderRows: 1, //To replace the table headers on the following pages
   dontBreakRows: true, // So that a line is not cut between 2 pages
-  forOrder: ["normal", "array", "composant", "commentaire"],
+  forOrder: ["orderline", "array", "component", "commentline"],
+  dataname: "OrderLines",
   body: [
     [
+      // Header row
       {text: 'DESIGNATION', alignment: 'left',	style: 'smallbold', border: [true, true, true, true]},
       {text: 'QTE A PREP', alignment: 'right',	style: 'smallbold', border: [true, true, true, true]},
       {text: 'U', alignment: 'center',	style: 'smallbold', border: [true, true, true, true]},
@@ -196,6 +215,7 @@ table: {
       {text: 'RESTE', alignment: 'right',	style: 'smallbold', border: [true, true, true, true]},
     ],
     [
+      //orderline
       {
         table: {
           widths: ['*', 'auto'],
@@ -220,7 +240,8 @@ table: {
       {	style: 'StyleLigne', text:'<sDoc>ligne.totalExclTaxes</sDoc>'},
     ],
     [
-      {
+     // array line
+     {
         colSpan: 5,
         table: {
           widths: [150, 165, 35, 20, 35,35],
@@ -242,7 +263,7 @@ table: {
       ''
     ],
     [
-      //Zone de designation
+      // component line
       {
         table: {
           widths: [10, '*', 'auto'],
@@ -267,6 +288,7 @@ table: {
       {	style: 'StyleLigne', text:'<sDoc>ligne.netUnitPrice</sDoc>'},
       {	style: 'StyleLigne', text:'<sDoc>ligne.totalExclTaxes</sDoc>'},
     ],
+    // commentline
     [{colSpan: 5, border: [true, false, true, false], text: '<sDoc>ligne.comment</sDoc>\n'}, '']
   ]
 }
@@ -280,7 +302,7 @@ var data = {
     date: "01/01/2018",
     ref : "12345678"
   },
-  ligne : [
+  OrderLines : [
     {
       line_array: [
         {
@@ -312,7 +334,7 @@ var data = {
       netUnitPrice:'256.99',
       totalExclTaxes:'256.99',
       T:'1',
-      type: "normal"
+      type: "orderline"
     },
     {
       code:'1234',
@@ -325,7 +347,7 @@ var data = {
       netUnitPrice:'1000.00',
       totalExclTaxes:'1000.00',
       T:'1',
-      type: "normal"
+      type: "orderline"
     },
     {
       code:'12341',
@@ -334,7 +356,7 @@ var data = {
       unity:'U',
       T:'1',
       level: 1,
-      type: "composant"
+      type: "component"
     },
     {
       code:'12342',
@@ -342,12 +364,12 @@ var data = {
       quantity:'1.000',
       unity:'U',
       T:'1',
-      type: "composant",
+      type: "component",
       level: 3
     },
     {
       comment: 'Deferred delivery for the rest of the invoice',
-      type: "commentaire"
+      type: "commentline"
     },
     {
       code:'1206008034',
@@ -360,7 +382,7 @@ var data = {
       netUnitPrice:'160.99',
       totalExclTaxes:'160.99',
       T:'1',
-      type: "composant",
+      type: "component",
       level: 2
     }
   ],
