@@ -3,6 +3,9 @@
   "version": "0.0.5",
   "description": "Create sales document with specific model and data",
   "main": "index.js",
+  "scripts": {
+    "test": "node test/runner.js"
+  },
   "author": "Atlantis Software",
   "license": "MIT",
   "dependencies": {
@@ -10,6 +13,7 @@
     "asynk": "~0.0.12"
   },
   "devDependencies": {
+    "mocha": ">=2.2.5",
     "eslint": "~5.4.0"
   }
 }

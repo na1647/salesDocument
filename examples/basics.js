@@ -15,6 +15,7 @@ var printer = new PdfPrinter(fonts);
 var fs = require("fs");
 
 var sDoc = new salesDocument();
+sDoc.removeHeaderFirstPage();
 sDoc.setModel(model);
 sDoc.setData(data);
 sDoc.createPDFMakeDD((dd)=> {

@@ -114,7 +114,7 @@ var data = {
       billTotalET: "100",
       billTotalVAT: "15.5",
       billTotalNet: "115.5",
-      type: "normal",
+      type: "normalTva",
       rose: "#FF00FF"
     },
     {
@@ -122,7 +122,18 @@ var data = {
       rate: "5.5",
       baseVAT: "100.00",
       amountVAT: "5.5",
-      type: "normal"
+      type: "normalTva"
+    },
+    {
+      index: "1",
+      rate: "10",
+      baseVAT: "100",
+      amountVAT: "10",
+      billTotalET: "100",
+      billTotalVAT: "15.5",
+      billTotalNet: "115.5",
+      type: "testTva",
+      rose: "#FF00FF"
     }
   ],
   agency: "N.Y."

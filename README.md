@@ -49,6 +49,11 @@ Next we need to create the object :
 var myObject = new salesDocument(model, data)
 ```
 
+To remove header in the first page , we can use removeHeaderFirstPage function :
+```javascript
+myObject.removeHeaderFirstPage();
+```
+
 We can change model or data after initialisation with setters :
 ```javascript
 myObject.setModel(model);
@@ -155,11 +160,13 @@ var dd = {
 ```
 In the header or the footer we can use the tag `<currentPage/>` to display current page and the tag  `<pageCount/>` to display the total number of pages.
 
-In your model you can create a loop (`for`) in your table. For that you just need to add `forOrder` attribute. 
+In your model you can create a loop (`for`) in your table. For that you just need to add `forOrder` attribute.
 
 SalesDocument will loop all times is needed to fullfill the table with the datas. For every one line of datas, you determine the type of line model you want to be used by filling the "type" propertie in the data line and SalesDocument will used the correct linem model using the "forOrder" propertie which is in the model
 
 That attribute is an array of string with in order the different type of line, like `orderline`, `commentline` ... It's important respecting order of type of line when you code the model.
+
+WARNING : we can't use type line `lot` , it's a reserved type
 
 SalesDocument need to know where it must search the datas for the table which must be fill up. To perform this, you need to fill the dataname propertie in the model. In the example below, the dataname is "OrderLines". You can name it with what you want. But the name must be the same in the model and in the datas.
 

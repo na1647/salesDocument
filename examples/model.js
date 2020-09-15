@@ -229,7 +229,8 @@ var model = {
       table: {
         widths: [6,65,65,68,82,80,83],
         headerRows: 1,
-        forOrder: ["normal"],
+        forOrder: ["normalTva", "testTva"],
+        dataName: "vat",
         body: [
           [
             {
@@ -317,6 +318,33 @@ var model = {
               alignment: 'center',
               fillColor: '<sDoc>vat.rose</sDoc>',
               margin: [0, 8, 0, 0]
+            }
+          ],
+          [
+            {
+              table: {
+                body: [
+                  [
+                    {text: '<sDoc>vat.index</sDoc>', fillColor: '<sDoc>rose</sDoc>'},
+                    {text: '<sDoc>vat.rate</sDoc>'},
+                    {text: '<sDoc>vat.baseVAT</sDoc>'}
+                  ],
+                  [
+                    {
+                      table: {
+                        body: [
+                          [{text: '<sDoc>vat.rose</sDoc>', fillColor: '<sDoc>rose</sDoc>'}, 'Col2', 'Col3'],
+                          ['1', '2', '3'],
+                          ['1', '2', '3']
+                        ]
+                      },
+                    },
+                    {text: '<sDoc>vat.rate</sDoc>'},
+                    {text: '<sDoc>vat.baseVAT</sDoc>'}
+                  ]
+                ]
+              },
+              colSpan: 7
             }
           ]
         ]
