@@ -424,7 +424,7 @@ class salesDocument {
         }).serie().done(() => {
           object.body.push(newLine);
 
-          if (line.type_ligne === "lot") {
+          if (line.type_ligne === "lot" && lineType["lot"]) {
             var dataNameLot = lineType["lot"][0].table.dataName;
 
             line[dataNameLot].forEach(function(ligne) {

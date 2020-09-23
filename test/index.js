@@ -49,4 +49,7 @@ describe('salesDocument', function(){
   it('Array with property dataName and level 3 (array in array) : It should display correct fill color', function(){
     assert.strictEqual(dd_pdf.content[8].table.body[3][0].table.body[1][0].table.body[0][0].fillColor, '#ff80ff');
   });
+  it('Lot type line : It should return correct value in sDoc tag', function(){
+    assert.strictEqual(dd_pdf.content[7].table.body[3][0].text, 'whose not attributed');
+  });
 });

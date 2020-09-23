@@ -119,7 +119,7 @@ var model = {
         headerRows: 1, // the first x lines are headers ( in our case 1 header line)
         keepWithHeaderRows: 1, //To replace the table headers on the following pages
         dontBreakRows: true, // So that a line is not cut between 2 pages
-        forOrder: ["normal", "array", "composant", "commentaire"],
+        forOrder: ["normal", "array", "composant", "commentaire", "lot", "none"],
         body: [
           [
             {text: 'DESIGNATION', alignment: 'left',	style: 'smallbold', border: [true, true, true, true]},
@@ -197,8 +197,16 @@ var model = {
 						{	style: 'StyleLigne', text:'<sDoc>ligne.netUnitPrice</sDoc>'},
 						{	style: 'StyleLigne', text:'<sDoc>ligne.totalExclTaxes</sDoc>'},
           ],
-          [{colSpan: 5, border: [true, false, true, false], text: '<sDoc>ligne.comment</sDoc>\n'}, '']
-        ]
+          [{colSpan: 5, border: [true, false, true, false], text: '<sDoc>ligne.comment</sDoc>\n'}, ''],
+          [
+            {	style: 'StyleLigne', text:'<sDoc>libelles_traduits.dontlot</sDoc> <sDoc>ligne.lots.libelle</sDoc>', alignment: 'right'},
+            {	style: 'StyleLigne', text:'<sDoc>ligne.lots.qte</sDoc>', alignment: 'right'},
+            {	style: 'StyleLigne', text:''},
+            {	style: 'StyleLigne', text:''},
+            {	style: 'StyleLigne', text:''},
+          ]
+        ],
+
       }
     },
     // Table of different VAT and total.

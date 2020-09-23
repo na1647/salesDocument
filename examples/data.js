@@ -1,4 +1,7 @@
 var data = {
+  libelles_traduits: {
+    dontlot: "whose"
+  },
   footer: "un footer",
   rose: "#ff80ff",
   document : {
@@ -50,6 +53,10 @@ var data = {
       type: "normal"
     },
     {
+      lots: [ { type: 'lot', qte: '1.000', libelle: 'not attributed' } ],
+      type: "lot"
+    },
+    {
       code:'1234',
       designation:'COMPUTER',
       quantity:'1.000',
@@ -96,6 +103,20 @@ var data = {
       totalExclTaxes:'160.99',
       T:'1',
       type: "composant",
+      level: 2
+    },
+    {
+      code:'1206008034',
+      designation:'OFFICE CHAIRS',
+      quantity:'2.000',
+      unity:'U',
+      publicPrice:'',
+      R:'',
+      RC:'',
+      netUnitPrice:'160.99',
+      totalExclTaxes:'160.99',
+      T:'1',
+      type: "undefined",
       level: 2
     }
   ],
