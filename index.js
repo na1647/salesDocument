@@ -11,10 +11,12 @@ class salesDocument {
     }
     // Define default tag for replace data
     this._tag = "sDoc";
+    this._tagImage = "sDocImage";
     this._tagCurrentPage = "<currentPage/>";
     this._tagPageCount = "<pageCount/>";
     // Select the tag in first group and is content in second group.
     this._regexTag = new RegExp(`<(${this._tag})>([\\s\\S]*?)</\\1>`, 'g');
+    this._regexTagImage = new RegExp(`<(${this._tagImage})>([\\s\\S]*?)</\\1>`, 'g');
     this.num_page_rupture_header = 0;
     this.current_page_header = 1;
     this.page_count_header = 1;
@@ -91,7 +93,6 @@ class salesDocument {
   // else we do nothing
   _recursiveFindObject(object, cb) {
     var self = this;
-
     asynk.each(_.keys(object), (key, cb) => {
       if (typeof object[key] === 'string' || object[key] instanceof String) {
         // verify if the tag is present, if true replace tag with data
@@ -162,6 +163,11 @@ class salesDocument {
             return self._executeHeader(header, self.current_page_header, self.page_count_header);
           }
         };
+        cb();
+      } else if (key === 'image') {
+        if (object[key].indexOf(self._tagImage) != -1) {
+          object[key] = self._replaceTagImage(object[key]);
+        }
         cb();
       } else {
         cb();
@@ -252,6 +258,10 @@ class salesDocument {
         if (object[key].indexOf(this._tagPageCount) != -1) {
           object[key] = this._replaceTagByValue(object[key], this._tagPageCount, pagecount);
         }
+      } else if (key === "image") {
+        if (object[key].indexOf(this._tagImage) != -1) {
+          object[key] = this._replaceTagImage(object[key]);
+        }
       }
     });
     this.firstPage = false;
@@ -297,6 +307,9 @@ class salesDocument {
           if (colonne.text) {
             colonne.text = self._replaceTag(colonne.text);
           }
+          if (colonne.image) {
+            colonne.image = self._replaceTagImage(colonne.image);
+          }
           if (colonne.fillColor) {
 
             colonne.fillColor = self._replaceTag(colonne.fillColor);
@@ -341,6 +354,9 @@ class salesDocument {
         } else {
           if (colonne.text) {
             colonne.text = self._replaceTag(colonne.text);
+          }
+          if (colonne.image) {
+            colonne.image = self.replaceTagImage(colonne.image);
           }
           if (colonne.fillColor) {
             colonne.fillColor = self._replaceTag(colonne.fillColor);
@@ -413,6 +429,12 @@ class salesDocument {
             }
           }
 
+          if (column.image) {
+            if (column.image.indexOf(this._tagImage) != -1) {
+              column.image = this._replaceTagImage(column.image);
+            }
+          }
+
           if (column.fillColor) {
             if (typeof column.fillColor === 'string' || column.fillColor instanceof String) {
               if (column.fillColor.indexOf(this._tag) != -1) {
@@ -437,8 +459,13 @@ class salesDocument {
                 // cas when line is a text
                 if (column.text) {
                   // verify if tag is present, if true replace tag with data
-                  if (column.text.indexOf(this._tag) != -1) {
+                  if (column.text.indexOf(this._tagImage) != -1) {
                     column.text = self._replaceTagLine(column.text, count);
+                  }
+                }
+                if (column.image) {
+                  if (column.image.indexOf(this._tag) != -1) {
+                    column.image = self._replaceTagImage(column.image);
                   }
                 }
               });
@@ -461,6 +488,12 @@ class salesDocument {
       }
       if (column.text.indexOf(this._tagPageCount) != -1) {
         column.text = this._replaceTagByValue(column.text, this._tagPageCount, pagecount);
+      }
+    }
+
+    if (column.image) {
+      if (column.image.indexOf(this._tagImage) != -1) {
+        column.image = this._replaceTagImage(column.image);
       }
     }
 
@@ -544,6 +577,16 @@ class salesDocument {
       if (value === void 0) {
         value = "";
       }
+      return value;
+    });
+  }
+
+  _replaceTagImage(image_name) {
+    var self = this;
+    // Replace the tag by the data
+    return image_name.replace(this._regexTagImage, function(match, tag, insideTag) {
+      // we only need the second group, that's why we use insideTag
+      var value = self._data[insideTag];
       return value;
     });
   }
@@ -644,6 +687,8 @@ class salesDocument {
 
         if (column.text) {
           column.text = self._replaceTagLine(column.text, count);
+        } else if (column.image){
+          column.image = self._replaceTagImage(column.image);
         } else {
           if (column.table) {
             self._addArrayWithData(column.table.body, count);
@@ -683,6 +728,8 @@ class salesDocument {
                 }
               }
             });
+          } else if (column.image) {
+            column.image = self._replaceTagImage(column.image);
           }
         });
         // add cloned line to the template array
@@ -753,6 +800,9 @@ class salesDocument {
           }
           if (colonne.fillColor) {
             colonne.fillColor = self._replaceTag(colonne.fillColor);
+          }
+          if (colonne.image) {
+            colonne.image = self._replaceTagImage(colonne.image);
           }
         }
       });
