@@ -617,7 +617,7 @@ class salesDocument {
       if (arr.length > 2) {
         for (var i = 2; i < arr.length; i++) {
           // On descend dans l'objet
-          if (value[0] && value[0] instanceof Object)
+          if (value && value[0] && value[0] instanceof Object)
             value = value[0];
           if (value[arr[i]]) {
             value = value[arr[i]];
