@@ -83,6 +83,8 @@ The model is a document definition of pdfmake so we can use any features availab
 
 To create a model with dynamic data we just need to use a tag with data we want to be modify. Per default the tag is sDoc
 
+To display a image use tag sDocImage : it must be a buffer , only jpeg and png can be used.
+
 
 Example :
 ```javascript
@@ -90,6 +92,11 @@ var dd = {
   content: [
     {
       text: '<sDoc>document.date</sDoc>'
+    },
+    {
+      image: '<sDocImage>image_buffer</sDocImage>',
+      width: 510,
+      height: 100
     }
   ],
   header: [

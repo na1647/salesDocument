@@ -1,24 +1,31 @@
-var data = {
-  libelles_traduits: {
+var fs = require('fs');
+var path = require('path');
+var data = {};
+fs.readFile(path.join(__dirname, '..', 'examples', 'image_carre.jpeg'), function(err, image_data) {
+  if (err)  {
+    throw err;
+  }
+  data.libelles_traduits = {
     dontlot: "whose"
-  },
-  footer: "un footer",
-  rose: "#ff80ff",
-  document : {
+  };
+  data.footer = "un footer";
+  data.rose = "#ff80ff";
+  data.document = {
     numero: 1234,
     date: '01/01/1995',
     client: "2ALPE",
     reference: 5678,
     adress: "6th Ave"
-  },
-  client: {
+  };
+  data.client = {
     phone: "0123456789",
     cellphone: "0612345789",
     interlocutor: "Mr. Smith",
     email: "DUPONT@contact.fr",
     commercialContact: "Mr. Smith"
   },
-  ligne : [
+  data.image_test = image_data,
+  data.ligne = [
     {
       line_array: [
         {
@@ -119,14 +126,14 @@ var data = {
       type: "undefined",
       level: 2
     }
-  ],
-  info : {
+  ];
+  data.info = {
     week: "12",
     weight: "5kg",
     postage: "advanced port",
     payment: "Transfer 30 days from the end of the month"
-  },
-  vat: [
+  };
+  data.vat = [
     {
       index: "1",
       rate: "10",
@@ -156,8 +163,10 @@ var data = {
       type: "testTva",
       rose: "#FF00FF"
     }
-  ],
-  agency: "N.Y."
-};
+  ];
+  data.agency = "N.Y.";
+});
+
+
 
 module.exports = data;

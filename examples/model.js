@@ -68,7 +68,11 @@ var model = {
         }
       ]
     },
-
+    {
+      image: '<sDocImage>image_test</sDocImage>',
+      width: 510,
+      height: 100
+    },
     // Additional information
     {
       text: '\n'
@@ -82,7 +86,6 @@ var model = {
       alignment: 'right',
       text: '<sDoc>agency</sDoc>'
     },
-
     //Tableau des lignes
     {
       widths: 400,
@@ -321,11 +324,10 @@ var model = {
               fillColor: '#F5F5F5',
               margin: [0, 8, 0, 0]
             }, {
-              text: '<sDoc>vat.billTotalNet</sDoc>',
               rowSpan: 2,
-              alignment: 'center',
-              fillColor: '<sDoc>vat.rose</sDoc>',
-              margin: [0, 8, 0, 0]
+              image: '<sDocImage>image_test</sDocImage>',
+              width: 20,
+              height: 20
             }
           ],
           [
@@ -341,7 +343,15 @@ var model = {
                     {
                       table: {
                         body: [
-                          [{text: '<sDoc>vat.rose</sDoc>', fillColor: '<sDoc>rose</sDoc>'}, 'Col2', 'Col3'],
+                          [
+                            {text: '<sDoc>vat.rose</sDoc>', fillColor: '<sDoc>rose</sDoc>'},
+                            'Col2',
+                            {
+                              image: '<sDocImage>image_test</sDocImage>',
+                              width: 20,
+                              height: 20
+                            }
+                          ],
                           ['1', '2', '3'],
                           ['1', '2', '3']
                         ]
