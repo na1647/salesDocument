@@ -581,12 +581,19 @@ class salesDocument {
     });
   }
 
-  _replaceTagImage(image_name) {
+  _replaceTagImage(image_with_tag) {
     var self = this;
+    var value = "";
     // Replace the tag by the data
-    return image_name.replace(this._regexTagImage, function(match, tag, insideTag) {
-      // we only need the second group, that's why we use insideTag
-      var value = self._data[insideTag];
+    return image_with_tag.replace(this._regexTagImage, function(match, tag, insideTag) {
+      if (_.isBuffer(self._data[insideTag])) {
+        var image_buffer = self._data[insideTag];
+        if (image_buffer[0] === 0xff && image_buffer[1] === 0xd8) {
+          value = 'data:image/jpeg;base64,' + image_buffer.toString('base64');
+        } else if (image_buffer[0] === 0x89 && image_buffer.toString('ascii', 1, 4) === 'PNG') {
+          value = 'data:image/png;base64,' + image_buffer.toString('base64');
+        }
+      }
       return value;
     });
   }
