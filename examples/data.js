@@ -10,6 +10,8 @@ fs.readFile(path.join(__dirname, '..', 'examples', 'image_carre.jpeg'), function
   };
   data.footer = "un footer";
   data.rose = "#ff80ff";
+  data.style = "mediumbold";
+  data.color = "#e3e3e3";
   data.document = {
     numero: 1234,
     date: '01/01/1995',

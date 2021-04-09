@@ -277,7 +277,7 @@ var model = {
                 true, false, true, true
               ],
               text: 'Total E.T.',
-              style: 'tableHeaderTotal',
+              style: '<sDoc>style</sDoc>',
               alignment: 'center',
               fillColor: '<sDoc>rose</sDoc>'
             }, {
@@ -335,7 +335,7 @@ var model = {
               table: {
                 body: [
                   [
-                    {text: '<sDoc>vat.index</sDoc>', fillColor: '<sDoc>rose</sDoc>'},
+                    {text: '<sDoc>vat.index</sDoc>', fillColor: '<sDoc>rose</sDoc>', color: '<sDoc>color</sDoc>'},
                     {text: '<sDoc>vat.rate</sDoc>'},
                     {text: '<sDoc>vat.baseVAT</sDoc>'}
                   ],
@@ -539,6 +539,10 @@ var model = {
     },
     smallbold: {
       fontSize: 8,
+      bold: true
+    },
+    mediumbold: {
+      fontSize: 9,
       bold: true
     },
     tableHeaderTotal: {
