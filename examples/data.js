@@ -166,6 +166,18 @@ fs.readFile(path.join(__dirname, '..', 'examples', 'image_carre.jpeg'), function
       rose: "#FF00FF"
     }
   ];
+  data.totals = [
+    {
+      index: "1",
+      rate: "10",
+      baseVAT: "100",
+      amountVAT: "10",
+      billTotalET: "100",
+      billTotalVAT: "15.5",
+      billTotalNet: "115.5",
+      rose: "#FF00FF"
+    }
+  ];
   data.agency = "N.Y.";
 });
 

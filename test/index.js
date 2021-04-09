@@ -74,10 +74,16 @@ describe('salesDocument', function(){
   it('Lot type line : It should return correct value in sDoc tag', function(){
     assert.strictEqual(dd_pdf.content[8].table.body[3][0].text, 'whose not attributed');
   });
-  it('Table header cell: It should return correct value in sDoc tag', function(){
+  it('Normal table header cell: It should return correct value in sDoc tag', function(){
     assert.strictEqual(dd_pdf.content[9].table.body[0][4].style, 'mediumbold');
   });
-  it('Table row cell: It should return correct value in sDoc tag', function(){
+  it('Normal table row cell: It should return correct value in sDoc tag', function(){
     assert.strictEqual(dd_pdf.content[9].table.body[3][0].table.body[0][0].color, '#e3e3e3');
+  });
+  it('Totals table header cell: It should return correct value in sDoc tag', function(){
+    assert.strictEqual(dd_pdf.content[10].table.body[0][0].style, 'mediumbold');
+  });
+  it('Totals table row cell: It should return correct value in sDoc tag', function(){
+    assert.strictEqual(dd_pdf.content[10].table.body[1][0].color, '#e3e3e3');
   });
 });
