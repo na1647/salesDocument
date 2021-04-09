@@ -277,7 +277,7 @@ var model = {
                 true, false, true, true
               ],
               text: 'Total E.T.',
-              style: 'tableHeaderTotal',
+              style: '<sDoc>style</sDoc>',
               alignment: 'center',
               fillColor: '<sDoc>rose</sDoc>'
             }, {
@@ -335,7 +335,7 @@ var model = {
               table: {
                 body: [
                   [
-                    {text: '<sDoc>vat.index</sDoc>', fillColor: '<sDoc>rose</sDoc>'},
+                    {text: '<sDoc>vat.index</sDoc>', fillColor: '<sDoc>rose</sDoc>', color: '<sDoc>color</sDoc>'},
                     {text: '<sDoc>vat.rate</sDoc>'},
                     {text: '<sDoc>vat.baseVAT</sDoc>'}
                   ],
@@ -368,6 +368,111 @@ var model = {
         ]
       }
     },
+
+
+ // Totals table case
+ {
+  style: 'small',
+  table: {
+    widths: [6,65,65,68,82,80,83],
+    headerRows: 1,
+    totals: true,
+    dataName: "totals",
+    body: [
+      [
+        {
+          border: [
+            true, false, true, true
+          ],
+          text: 'T',
+          style: '<sDoc>style</sDoc>',
+          alignment: 'left'
+        }, {
+          border: [
+            true, false, true, true
+          ],
+          text: 'VAT rate',
+          style: 'tableHeader',
+          alignment: 'right'
+        }, {
+          border: [
+            true, false, true, true
+          ],
+          text: 'VAT base',
+          style: 'tableHeader',
+          alignment: 'right'
+        }, {
+          border: [
+            true, false, true, true
+          ],
+          text: 'VAT amount',
+          style: 'tableHeader',
+          alignment: 'right'
+        }, {
+          border: [
+            true, false, true, true
+          ],
+          text: 'Total E.T.',
+          style: '<sDoc>style</sDoc>',
+          alignment: 'center',
+          fillColor: '<sDoc>rose</sDoc>'
+        }, {
+          border: [
+            true, false, true, true
+          ],
+          text: 'Total VAT',
+          style: 'tableHeaderTotal',
+          alignment: 'center',
+          fillColor: '<sDoc>rose</sDoc>'
+        }, {
+          border: [
+            true, false, true, true
+          ],
+          text: 'net payable',
+          style: 'tableHeaderTotal',
+          alignment: 'center',
+          fillColor: '<sDoc>rose</sDoc>'
+        }
+      ],
+      [
+        {
+          text: '<sDoc>index</sDoc>',
+          alignment: 'left',
+          color: '<sDoc>color</sDoc>'
+        }, {
+          text: '<sDoc>rate</sDoc>',
+          alignment: 'right'
+        }, {
+          text: '<sDoc>baseVAT</sDoc>',
+          alignment: 'right'
+        }, {
+          text: '<sDoc>amountVAT</sDoc>',
+          alignment: 'right'
+        }, {
+          text: '<sDoc>billTotalET</sDoc>',
+          rowSpan: 2,
+          alignment: 'center',
+          fillColor: '#F5F5F5',
+          margin: [0, 8, 0, 0]
+        }, {
+          text: '<sDoc>billTotalVAT</sDoc>',
+          rowSpan: 2,
+          alignment: 'center',
+          fillColor: '#F5F5F5',
+          margin: [0, 8, 0, 0]
+        }, {
+          rowSpan: 2,
+          image: '<sDocImage>image_test</sDocImage>',
+          width: 20,
+          height: 20
+        }
+      ]
+    ]
+  }
+},
+
+
+
     // Table of general information
     {
       table: {
@@ -539,6 +644,10 @@ var model = {
     },
     smallbold: {
       fontSize: 8,
+      bold: true
+    },
+    mediumbold: {
+      fontSize: 9,
       bold: true
     },
     tableHeaderTotal: {

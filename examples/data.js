@@ -10,6 +10,8 @@ fs.readFile(path.join(__dirname, '..', 'examples', 'image_carre.jpeg'), function
   };
   data.footer = "un footer";
   data.rose = "#ff80ff";
+  data.style = "mediumbold";
+  data.color = "#e3e3e3";
   data.document = {
     numero: 1234,
     date: '01/01/1995',
@@ -161,6 +163,18 @@ fs.readFile(path.join(__dirname, '..', 'examples', 'image_carre.jpeg'), function
       billTotalVAT: "15.5",
       billTotalNet: "115.5",
       type: "testTva",
+      rose: "#FF00FF"
+    }
+  ];
+  data.totals = [
+    {
+      index: "1",
+      rate: "10",
+      baseVAT: "100",
+      amountVAT: "10",
+      billTotalET: "100",
+      billTotalVAT: "15.5",
+      billTotalNet: "115.5",
       rose: "#FF00FF"
     }
   ];

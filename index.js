@@ -310,9 +310,16 @@ class salesDocument {
           if (colonne.image) {
             colonne.image = self._replaceTagImage(colonne.image);
           }
+          // With a variable from data file and a sDoc tag,
+          // you can change the configuration of a cell in the normal table header (fillColor, color, style)
           if (colonne.fillColor) {
-
             colonne.fillColor = self._replaceTag(colonne.fillColor);
+          }
+          if (colonne.color) {
+            colonne.color = self._replaceTag(colonne.color);
+          }
+          if (colonne.style) {
+            colonne.style = self._replaceTag(colonne.style);
           }
         }
       });
@@ -360,6 +367,12 @@ class salesDocument {
           }
           if (colonne.fillColor) {
             colonne.fillColor = self._replaceTag(colonne.fillColor);
+          }
+          if (colonne.color) {
+            colonne.color = self._replaceTag(colonne.color);
+          }
+          if (colonne.style) {
+            colonne.style = self._replaceTag(colonne.style);
           }
         }
       });
@@ -701,10 +714,26 @@ class salesDocument {
             self._addArrayWithData(column.table.body, count);
           }
         }
+        // With a variable in data file and a sDoc tag,
+        // you can change the configuration of a cell of a row in the totals table (fillColor, color, style)
         if (column.fillColor) {
           if (typeof column.fillColor === 'string' || column.fillColor instanceof String) {
             if (column.fillColor.indexOf(self._tag) != -1) {
               column.fillColor = self._replaceTag(column.fillColor);
+            }
+          }
+        }
+        if (column.color) {
+          if (typeof column.color === 'string' || column.color instanceof String) {
+            if (column.color.indexOf(self._tag) != -1) {
+              column.color = self._replaceTag(column.color);
+            }
+          }
+        }
+        if (column.style) {
+          if (typeof column.style === 'string' || column.style instanceof String) {
+            if (column.style.indexOf(self._tag) != -1) {
+              column.style = self._replaceTag(column.style);
             }
           }
         }
@@ -805,11 +834,19 @@ class salesDocument {
           if (colonne.text) {
             colonne.text = self._replaceTag(colonne.text);
           }
+          if (colonne.image) {
+            colonne.image = self._replaceTagImage(colonne.image);
+          }
+          // With a variable in data file and a sDoc tag,
+          // you can change the configuration of a cell in the totals table header (fillColor, color, style) 
           if (colonne.fillColor) {
             colonne.fillColor = self._replaceTag(colonne.fillColor);
           }
-          if (colonne.image) {
-            colonne.image = self._replaceTagImage(colonne.image);
+          if (colonne.color) {
+            colonne.color = self._replaceTag(colonne.color);
+          }
+          if (colonne.style) {
+            colonne.style = self._replaceTag(colonne.style);
           }
         }
       });
@@ -864,6 +901,18 @@ class salesDocument {
             if (column.rowSpan) {
               column.rowSpan = nbelement;
             }
+          }
+
+          // With a variable from data file and a sDoc tag,
+          // you can change the configuration of a cell of a row in the totals table (fillColor, color, style)
+          if (column.fillColor) {
+            column.fillColor = self._replaceTagObject(column.fillColor, self._data);
+          }
+          if (column.color) {
+              column.color = self._replaceTagObject(column.color, self._data);
+          }
+          if (column.style) {
+            column.style = self._replaceTagObject(column.style, self._data);
           }
         });
 
