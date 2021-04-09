@@ -1,6 +1,6 @@
 {
   "name": "salesdocument",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Create sales document with specific model and data",
   "main": "index.js",
   "scripts": {
