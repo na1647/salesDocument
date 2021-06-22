@@ -2,16 +2,6 @@
 
 SalesDocument is a class that provide functions to create a sale document with a model using pdfmake and somes datas.
 
-When the sale document is created, anyone can modify the model to modify the look and feel of the document without modifying any code line.
-
-You modify the model and use SalesDocument to regenerate the sale document with the new properties.
-
-You can put in the sale document all the poperties which are located in the datas witout modifying code line.
-
-You can let your customers modify the model or generate their own models of their documents.
-
-SalesDocument permit you to generate all the documents you have in head. For example you can generate follow up letters, order, order's picking, delivery, invoice, etc.
-
 ## Installation
 Just do an npm install in your project folder :
 
@@ -31,6 +21,19 @@ node basics.js
 ```
 
 That will create a pdf in pdfs folders. You can change model and data in corresponding files
+
+## Utility
+
+When the sale document is created, anyone can modify the model to modify the look and feel of the document without modifying any code line.
+
+You modify the model and use SalesDocument to regenerate the sale document with the new properties.
+
+You can put in the sale document all the poperties which are located in the datas witout modifying code line.
+
+You can let your customers modify the model or generate their own models of their documents.
+
+SalesDocument permit you to generate all the documents you have in head. For example you can generate follow up letters, order, order's picking, delivery, invoice, etc.
+
 
 ## Usage
 SalesDocument is a instantiable object.
